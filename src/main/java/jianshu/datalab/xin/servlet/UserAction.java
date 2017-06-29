@@ -46,6 +46,7 @@ public class UserAction extends HttpServlet {
     private void signUp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String nick = req.getParameter("nick").trim();
         String mobile = req.getParameter("mobile").trim();
+        String plainPassword = req.getParameter("password");
 
         if (nick.length() == 0) {
             req.setAttribute("message", "请输入昵称");
@@ -55,6 +56,12 @@ public class UserAction extends HttpServlet {
 
         if (mobile.length() == 0) {
             req.setAttribute("message", "请输入手机号");
+            req.getRequestDispatcher("sign_up.jsp").forward(req, resp);
+            return;
+        }
+
+        if (plainPassword.length() < 6) {
+            req.setAttribute("message", "密码不能少于6个字符");
             req.getRequestDispatcher("sign_up.jsp").forward(req, resp);
             return;
         }
@@ -72,7 +79,7 @@ public class UserAction extends HttpServlet {
         }
 
         StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
-        String password = encryptor.encryptPassword(req.getParameter("password"));
+        String password = encryptor.encryptPassword(plainPassword);
 
         Connection connection = Db.getConnection();
         PreparedStatement preparedStatement = null;

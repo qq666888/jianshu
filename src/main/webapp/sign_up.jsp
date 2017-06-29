@@ -66,6 +66,7 @@
 
         var isNickValidated; // 昵称通过了验证
         var isMobileValidated; // 手机号通过了验证
+        var isPasswordValidated; // 密码通过了验证
 
         function showMessage(element, text, removedClass, addedClass) {
             element.parent()
@@ -125,8 +126,32 @@
                             isMobileValidated = true;
                         }
                     }
+                },
+                error: function () {
+                    window.location.href = 'default.jsp?message=ERROR.';
                 }
             });
+        }
+
+        function validatePassword() {
+            var password = $('#password');
+            if (password.val().length < 6) {
+                showMessage(
+                    password,
+                    '密码不能少于6个字符',
+                    ['has-success', 'text-success'],
+                    ['has-error', 'text-danger']
+                );
+                isPasswordValidated = false;
+            } else {
+                showMessage(
+                    password,
+                    '密码可以使用',
+                    ['has-error', 'text-danger'],
+                    ['has-success', 'text-success']
+                );
+                isPasswordValidated = true;
+            }
         }
 
         $(function () {
@@ -138,16 +163,23 @@
             $('#mobile').blur(function () {
                 validate(true, 'mobile');
             });
+            $('#password').blur(function () {
+                validatePassword();
+            });
 
             $('#sign-up-form').submit(function () {
                 validate(false, 'nick');
                 validate(false, 'mobile');
+                validatePassword();
                 if (!isNickValidated) {
                     $('#nick').focus();
-                } else {
+                } else if (!isMobileValidated) {
                     $('#mobile').focus();
+                } else {
+                    $('#password').focus();
                 }
-                return isNickValidated && isMobileValidated;
+
+                return isNickValidated && isMobileValidated && isPasswordValidated;
             });
         });
     </script>
@@ -172,7 +204,7 @@
             <small id='mobile-message'></small>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-lock'></i></span>
-                <input name='password' class='form-control input-lg' type='password' placeholder='设置密码'>
+                <input id="password" name='password' class='form-control input-lg' type='password' placeholder='设置密码'>
             </div>
             <small id='password-message'></small>
             <button class='btn btn-success btn-lg btn-block'>注册</button>

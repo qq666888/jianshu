@@ -26,6 +26,7 @@
 <div class="container">
     <h1>首页</h1>
     <small class="text-danger">${requestScope.message}</small>
+    <small class="text-danger">${param.message}</small>
 </div>
 </body>
 </html>
