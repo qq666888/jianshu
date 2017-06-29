@@ -156,6 +156,10 @@
                 <input id="password" name='password' class='form-control input-lg' type='password' placeholder='密码'>
             </div>
             <small id='password-message'></small>
+            <div class="checkbox">
+                <label class="text-muted"><input type="checkbox" checked="checked"> 记住我</label>
+                <a class="pull-right text-muted" href="">登录遇到问题？</a>
+            </div>
             <button class='btn btn-primary btn-lg btn-block'>登录</button>
         </form>
         <small class="text-danger">${requestScope.message}</small>

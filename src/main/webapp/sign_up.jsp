@@ -138,7 +138,7 @@
             if (password.val().length < 6) {
                 showMessage(
                     password,
-                    '密码不能少于6个字符',
+                    '密码 不能少于6个字符',
                     ['has-success', 'text-success'],
                     ['has-error', 'text-danger']
                 );
@@ -146,7 +146,7 @@
             } else {
                 showMessage(
                     password,
-                    '密码可以使用',
+                    '密码 可以使用',
                     ['has-error', 'text-danger'],
                     ['has-success', 'text-success']
                 );
