@@ -155,7 +155,7 @@
         }
 
         $(function () {
-            $('#index').removeClass('active');
+            $('#li-index').removeClass('active');
 
             $('#nick').blur(function () {
                 validate(true, 'nick');
@@ -189,7 +189,7 @@
 <div class='container'>
     <div id='logo'><img src='static/image/logo.png' alt='简书'></div>
     <div id='form-box' class='col-md-4 col-md-offset-4'>
-        <h3 class='text-center'><a class='text-muted' href=''>登录</a> · <a id='sign-up' href=''>注册</a></h3>
+        <h3 class='text-center'><a class='text-muted' href="sign_in.jsp">登录</a> · <a id='sign-up' href=''>注册</a></h3>
         <form id="sign-up-form" class='form-horizontal' action='user' method='post'>
             <input type='hidden' name='action' value='signUp'>
             <div class='input-group'>
