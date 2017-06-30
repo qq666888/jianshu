@@ -25,6 +25,7 @@
 <%@ include file="nav.jsp"%>
 <div class="container">
     <h1>首页</h1>
+    <p><img class="img-circle" src="static/image/${sessionScope.user.avatar}" alt="${sessionScope.user.nick}" title="${sessionScope.user.nick}" width="72"></p>
     <small class="text-danger">${requestScope.message}</small>
     <small class="text-danger">${param.message}</small>
 </div>

@@ -142,10 +142,11 @@
 <div class='container'>
     <div id='logo'><img src='static/image/logo.png' alt='简书'></div>
     <div id='form-box' class='col-md-4 col-md-offset-4'>
-        <h3 class='text-center'><a id="sign-in" href='sign_in.jsp'>登录</a> · <a id='sign-up' class="text-muted"
-                                                                               href='sign_up.jsp'>注册</a></h3>
+        <h3 class='text-center'>
+            <a id="sign-in" href='sign_in.jsp'>登录</a> · <a id='sign-up' class="text-muted" href='sign_up.jsp'>注册</a>
+        </h3>
         <form id="sign-in-form" class='form-horizontal' action='user' method='post'>
-            <input type='hidden' name='action' value='signUp'>
+            <input type='hidden' name='action' value='signIn'>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-phone'></i></span>
                 <input id="mobile" name='mobile' class='form-control input-lg' type='text' placeholder='手机号或邮箱'>
