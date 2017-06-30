@@ -51,6 +51,11 @@ public class UserAction extends HttpServlet {
             return;
         }
 
+        if ("checkValidCode".equals(action)) {
+            checkValidCode(req, resp);
+            return;
+        }
+
         Error.showError(req, resp);
     }
 
@@ -241,6 +246,10 @@ public class UserAction extends HttpServlet {
         }
 
         return isNickExisted || isMobileExisted;
+    }
+
+    private void checkValidCode(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(req.getParameter("code"));
     }
 
     @Override
