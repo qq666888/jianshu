@@ -142,7 +142,6 @@ public class UserAction extends HttpServlet {
                 String encryptedPassword = resultSet.getString("password");
                 StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
                 if (encryptor.checkPassword(plainPassword, encryptedPassword)) {
-
                     User user = new User(
                             resultSet.getInt("id"),
                             resultSet.getString("nick"),
