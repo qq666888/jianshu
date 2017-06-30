@@ -1,10 +1,12 @@
 package jianshu.datalab.xin.servlet;
 
 import com.alibaba.fastjson.JSON;
+import com.google.code.kaptcha.Constants;
 import jianshu.datalab.xin.model.User;
 import jianshu.datalab.xin.util.Db;
 import jianshu.datalab.xin.util.Error;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import sun.font.TrueTypeFont;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -125,6 +127,13 @@ public class UserAction extends HttpServlet {
     }
 
     private void signIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (!checkValidCode(req, resp)) {
+            req.setAttribute("message", "验证码错误");
+            req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
+            return;
+        }
+
         String mobile = req.getParameter("mobile").trim();
         String plainPassword = req.getParameter("password");
 
@@ -248,8 +257,21 @@ public class UserAction extends HttpServlet {
         return isNickExisted || isMobileExisted;
     }
 
-    private void checkValidCode(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameter("code"));
+    private boolean checkValidCode(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String kaptchaReceived = req.getParameter("kaptchaReceived");
+        String kaptchaExpected = (String) req.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        System.out.println(kaptchaExpected);
+        resp.setContentType("application/json");
+        Writer writer = resp.getWriter();
+        Map<String, Boolean> map = new HashMap<>();
+
+        if (kaptchaExpected.equalsIgnoreCase(kaptchaReceived)) {
+            map.put("isValid", true);
+        } else {
+            map.put("isValid", false);
+        }
+        writer.write(JSON.toJSONString(map));
+        return map.get("isValid");
     }
 
     @Override

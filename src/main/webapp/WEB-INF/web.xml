@@ -24,11 +24,11 @@
         </init-param>
         <init-param>
             <param-name>kaptcha.textproducer.char.length</param-name>
-            <param-value>8</param-value>
+            <param-value>1</param-value>
         </init-param>
         <init-param>
             <param-name>kaptcha.textproducer.char.string</param-name>
-            <param-value>abcde2345678gfynmnpwx汉字中文啊水电费</param-value>
+            <param-value>0123456789</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

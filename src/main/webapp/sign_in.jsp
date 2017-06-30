@@ -177,10 +177,24 @@
                 $.ajax({
                     url: 'user',
                     type: 'post',
-                    data: {'action':'checkValidCode', 'code':kaptcha.val()},
+                    data: {'action': 'checkValidCode', 'kaptchaReceived': kaptcha.val()},
                     dataType: 'json',
                     success: function (result) {
-                        console.log(result.isValid);
+                        if (result.isValid) {
+                            showMessage(
+                                kaptcha,
+                                '验证码正确',
+                                ['has-error', 'text-danger'],
+                                ['has-success', 'text-success']
+                            );
+                        } else {
+                            showMessage(
+                                kaptcha,
+                                '验证码错误',
+                                ['has-success', 'text-success'],
+                                ['has-error', 'text-danger']
+                            );
+                        }
                     }
                 });
             });
@@ -214,7 +228,7 @@
             </div>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-check'></i></span>
-                <input id="kaptcha" name='kaptcha' class='form-control input-lg' type='text' placeholder='验证码'
+                <input id="kaptcha" name='kaptchaReceived' class='form-control input-lg' type='text' placeholder='验证码'
                        value="123">
             </div>
             <small id='password-kaptcha'></small>
