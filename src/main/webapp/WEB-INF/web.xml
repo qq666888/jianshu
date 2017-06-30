@@ -35,4 +35,39 @@
         <servlet-name>Kaptcha</servlet-name>
         <url-pattern>/kaptcha.jpg</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>StartCaptchaServlet1</servlet-name>
+        <servlet-class>jianshu.datalab.xin.util.geetest1.StartCaptchaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyLoginServlet1</servlet-name>
+        <servlet-class>jianshu.datalab.xin.util.geetest1.VerifyLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StartCaptchaServlet2</servlet-name>
+        <servlet-class>jianshu.datalab.xin.util.geetest2.StartCaptchaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyLoginServlet2</servlet-name>
+        <servlet-class>jianshu.datalab.xin.util.geetest2.VerifyLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VerifyLoginServlet1</servlet-name>
+        <url-pattern>/gt/ajax-validate1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartCaptchaServlet1</servlet-name>
+        <url-pattern>/gt/register1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyLoginServlet2</servlet-name>
+        <url-pattern>/gt/ajax-validate2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartCaptchaServlet2</servlet-name>
+        <url-pattern>/gt/register2</url-pattern>
+    </servlet-mapping>
 </web-app>
