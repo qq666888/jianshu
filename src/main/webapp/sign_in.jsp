@@ -163,6 +163,13 @@
                 <label class="text-muted"><input type="checkbox" checked="checked"> 记住我</label>
                 <a class="pull-right text-muted" href="">登录遇到问题？</a>
             </div>
+            <img src="kaptcha.jpg" alt="">
+            <div class='input-group'>
+                <span class='input-group-addon'><i class='glyphicon glyphicon-lock'></i></span>
+                <input id="kaptcha" name='kaptcha' class='form-control input-lg' type='text' placeholder='验证码'
+                       value="123">
+            </div>
+            <small id='password-kaptcha'></small>
             <button class='btn btn-primary btn-lg btn-block'>登录</button>
         </form>
         <small class="text-danger">${requestScope.message}</small>
