@@ -48,6 +48,11 @@ public class UserAction extends HttpServlet {
             return;
         }
 
+        if ("signInApi".equals(action)) {
+            signInApi(req, resp);
+            return;
+        }
+
         if ("signOut".equals(action)) {
             signOut(req, resp);
             return;
@@ -126,14 +131,7 @@ public class UserAction extends HttpServlet {
         }
     }
 
-    private void signIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (!checkValidCode(req, resp)) {
-            req.setAttribute("message", "验证码错误");
-            req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
-            return;
-        }
-
+    private User checkSignIn(HttpServletRequest req, HttpServletResponse resp) {
         String mobile = req.getParameter("mobile").trim();
         String plainPassword = req.getParameter("password");
 
@@ -147,7 +145,7 @@ public class UserAction extends HttpServlet {
                 preparedStatement = connection.prepareStatement(sql);
             } else {
                 Error.showError(req, resp);
-                return;
+                return null; // ?
             }
             preparedStatement.setString(1, mobile);
 
@@ -175,18 +173,55 @@ public class UserAction extends HttpServlet {
                     preparedStatement.setInt(2, user.getId());
                     preparedStatement.executeUpdate();
 
-                    req.getSession().setAttribute("user", user);
-                    resp.sendRedirect("default.jsp");
-                    return;
+                    return user;
                 }
             }
-            req.setAttribute("message", "登录失败，手机号/邮箱或密码错误");
-            req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Db.close(resultSet, preparedStatement, connection);
         }
+        return null;
+    }
+
+
+    /**
+     * 处理 Android 客户端请求
+     */
+    private void signInApi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = checkSignIn(req, resp);
+
+        resp.setContentType("application/json");
+        Writer writer = resp.getWriter();
+        Map<String, Object> map = new HashMap<>();
+        if (user != null) {
+            map.put("canSignIn", true);
+            map.put("user", user);
+        } else {
+            map.put("canSignIn", false);
+            map.put("user", null);
+        }
+
+        String json = JSON.toJSONString(map);
+        System.out.println("json: " + json);
+        writer.write(json);
+    }
+
+    private void signIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!checkValidCode(req, resp)) {
+            req.setAttribute("message", "验证码错误");
+            req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
+            return;
+        }
+
+        User user = checkSignIn(req, resp);
+        if (user != null) {
+            req.getSession().setAttribute("user", user);
+            resp.sendRedirect("default.jsp");
+            return;
+        }
+        req.setAttribute("message", "登录失败，手机号/邮箱或密码错误");
+        req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
     }
 
 
