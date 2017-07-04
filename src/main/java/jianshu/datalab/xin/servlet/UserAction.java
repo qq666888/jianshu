@@ -184,7 +184,6 @@ public class UserAction extends HttpServlet {
         return null;
     }
 
-
     /**
      * 处理 Android 客户端请求
      */
@@ -223,7 +222,6 @@ public class UserAction extends HttpServlet {
         req.setAttribute("message", "登录失败，手机号/邮箱或密码错误");
         req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
     }
-
 
     private void signOut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
