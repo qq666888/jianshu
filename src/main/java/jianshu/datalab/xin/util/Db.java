@@ -2,7 +2,11 @@ package jianshu.datalab.xin.util;
 
 import com.mysql.jdbc.Driver;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * Created by mingfei.net@gmail.com
@@ -17,14 +21,45 @@ public class Db {
         try {
 //            new Driver();
             Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection(URL);
-        } catch (ClassNotFoundException | SQLException e) {
+            Properties properties = new Properties();
+            properties.load(new FileReader("jdbc.properties"));
+//            return DriverManager.getConnection(URL);
+            return DriverManager.getConnection("jdbc:mysql:///", properties);
+        } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static void close(ResultSet resultSet, PreparedStatement preparedStatement, Connection connection) {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = getConnection();
+
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+        System.out.println(databaseMetaData.getDatabaseProductName());
+        System.out.println(databaseMetaData.getDatabaseProductVersion());
+
+        String mobile = "a'='a"; // "18612345678";
+        String password = "a'='a"; // "DD4Tf3lw1LuCEEPblO3gHLuV5FGyvMEhVMGebNnnHWQoOzQOjIeFLIQ4wWoWIsx5";
+
+        String sql = "SELECT * FROM db_jianshu.user WHERE mobile = ? AND password = ?";
+//        String sql = "SELECT * FROM db_jianshu.user WHERE mobile = '" + mobile + "' AND password = '" + password + "'";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, mobile);
+        preparedStatement.setString(2, password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        System.out.println(resultSet.next()); // false
+//        System.out.println(resultSet.getString("nick"));
+
+//        Statement statement = connection.createStatement();
+//        ResultSet resultSet = statement.executeQuery(sql);
+//        while (resultSet.next()) {
+//            System.out.println(resultSet.getString("nick"));
+//        }
+    }
+
+    public static void close(ResultSet resultSet, Statement statement, Connection connection) {
         if (resultSet != null) {
             try {
                 resultSet.close();
@@ -32,9 +67,9 @@ public class Db {
                 e.printStackTrace();
             }
         }
-        if (preparedStatement != null) {
+        if (statement != null) {
             try {
-                preparedStatement.close();
+                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
