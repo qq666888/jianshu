@@ -3,7 +3,6 @@ package jianshu.datalab.xin.servlet;
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import jianshu.datalab.xin.model.User;
-import jianshu.datalab.xin.util.Db;
 import jianshu.datalab.xin.util.Error;
 import jianshu.datalab.xin.util.MybatisUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -16,10 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Writer;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,13 +87,13 @@ public class UserAction extends HttpServlet {
             return;
         }
 
-        if (isNickExisted(req, resp)) {
+        if (isNickExisted(req)) {
             req.setAttribute("message", "昵称 已经被使用");
             req.getRequestDispatcher("sign_up.jsp").forward(req, resp);
             return;
         }
 
-        if (isMobileExisted(req, resp)) {
+        if (isMobileExisted(req)) {
             req.setAttribute("message", "手机号 已经被使用");
             req.getRequestDispatcher("sign_up.jsp").forward(req, resp);
             return;
@@ -115,7 +110,7 @@ public class UserAction extends HttpServlet {
         resp.sendRedirect("sign_in.jsp");
     }
 
-    private User checkSignIn(HttpServletRequest req, HttpServletResponse resp) {
+    private User checkSignIn(HttpServletRequest req) {
         String mobile = req.getParameter("mobile").trim();
         String plainPassword = req.getParameter("password");
 
@@ -146,7 +141,7 @@ public class UserAction extends HttpServlet {
      * 处理 Android 客户端请求
      */
     private void signInApi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = checkSignIn(req, resp);
+        User user = checkSignIn(req);
 
         resp.setContentType("application/json");
         Writer writer = resp.getWriter();
@@ -170,7 +165,7 @@ public class UserAction extends HttpServlet {
             return;
         }
 
-        User user = checkSignIn(req, resp);
+        User user = checkSignIn(req);
         if (user != null) {
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("default.jsp");
@@ -188,15 +183,15 @@ public class UserAction extends HttpServlet {
     /**
      * for signUp
      */
-    private boolean isNickExisted(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        return isExisted(req, resp, "nick", req.getParameter("nick").trim());
+    private boolean isNickExisted(HttpServletRequest req) throws ServletException, IOException {
+        return isExisted("nick", req.getParameter("nick").trim());
     }
 
     /**
      * for signUp
      */
-    private boolean isMobileExisted(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        return isExisted(req, resp, "mobile", req.getParameter("mobile").trim());
+    private boolean isMobileExisted(HttpServletRequest req) throws ServletException, IOException {
+        return isExisted("mobile", req.getParameter("mobile").trim());
     }
 
     /**
@@ -206,7 +201,7 @@ public class UserAction extends HttpServlet {
         String field = req.getParameter("field");
         String value = req.getParameter("value").trim();
 
-        boolean isExisted = isExisted(req, resp, field, value);
+        boolean isExisted = isExisted(field, value);
 
         resp.setContentType("application/json");
         Writer writer = resp.getWriter();
@@ -215,35 +210,21 @@ public class UserAction extends HttpServlet {
         writer.write(JSON.toJSONString(map));
     }
 
-    private boolean isExisted(HttpServletRequest req, HttpServletResponse resp, String field, String value) throws ServletException, IOException {
+    private boolean isExisted(String field, String value) throws ServletException, IOException {
         boolean isNickExisted = false;
         boolean isMobileExisted = false;
 
-        Connection connection = Db.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql = "SELECT * FROM db_jianshu.user WHERE " + field + " = ?";
-        try {
-            if (connection != null) {
-                preparedStatement = connection.prepareStatement(sql);
-            } else {
-                Error.showError(req, resp);
-                return false; // TODO: 6/29/17
+        if (field.equals("nick")) {
+            try (SqlSession sqlSession = MybatisUtil.getSqlSession(false)) {
+                User user = sqlSession.selectOne("user.queryUserByNick", value);
+                isNickExisted = (user != null);
             }
-            preparedStatement.setString(1, value);
-            resultSet = preparedStatement.executeQuery();
-
-            if (field.equals("nick")) {
-                isNickExisted = resultSet.next();
-            } else {
-                isMobileExisted = resultSet.next();
+        } else {
+            try (SqlSession sqlSession = MybatisUtil.getSqlSession(false)) {
+                User user = sqlSession.selectOne("user.queryUserByMobile", value);
+                isMobileExisted = (user != null);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Db.close(resultSet, preparedStatement, connection);
         }
-
         return isNickExisted || isMobileExisted;
     }
 
