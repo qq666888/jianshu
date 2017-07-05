@@ -33,7 +33,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 9px;" href="">
                         <img class="img-circle"
                              style="border: 1px #9d9d9d solid;"
-                             src="static/image/${sessionScope.user.avatar}" alt="${sessionScope.user.nick}"
+                             src="static/upload/${sessionScope.user.avatar}" alt="${sessionScope.user.nick}"
                              width="32">
                         <span class="caret"></span>
                     </a>

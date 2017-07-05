@@ -1,12 +1,6 @@
 package jianshu.datalab.xin.util;
 
-import com.mysql.jdbc.Driver;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
 
 /**
  * Created by mingfei.net@gmail.com

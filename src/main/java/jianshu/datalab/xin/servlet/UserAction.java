@@ -5,8 +5,9 @@ import com.google.code.kaptcha.Constants;
 import jianshu.datalab.xin.model.User;
 import jianshu.datalab.xin.util.Db;
 import jianshu.datalab.xin.util.Error;
+import jianshu.datalab.xin.util.MybatisUtil;
+import org.apache.ibatis.session.SqlSession;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import sun.font.TrueTypeFont;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,83 +106,38 @@ public class UserAction extends HttpServlet {
 
         StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
         String password = encryptor.encryptPassword(plainPassword);
+        String lastIp = req.getRemoteAddr();
 
-        Connection connection = Db.getConnection();
-        PreparedStatement preparedStatement = null;
-
-        String sql = "INSERT INTO db_jianshu.user(nick, mobile, password, lastIp) VALUE(?, ?, ?, ?)";
-
-        try {
-            if (connection != null) {
-                preparedStatement = connection.prepareStatement(sql);
-            } else {
-                Error.showError(req, resp);
-                return;
-            }
-            preparedStatement.setString(1, nick);
-            preparedStatement.setString(2, mobile);
-            preparedStatement.setString(3, password);
-            preparedStatement.setString(4, req.getRemoteAddr());
-
-            preparedStatement.executeUpdate();
-
-            resp.sendRedirect("/");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Db.close(null, preparedStatement, connection);
+        try (SqlSession sqlSession = MybatisUtil.getSqlSession(true)) {
+            sqlSession.insert("user.signUp", new User(nick, mobile, password, lastIp));
         }
+
+        resp.sendRedirect("sign_in.jsp");
     }
 
     private User checkSignIn(HttpServletRequest req, HttpServletResponse resp) {
         String mobile = req.getParameter("mobile").trim();
         String plainPassword = req.getParameter("password");
 
-        Connection connection = Db.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql = "SELECT * FROM db_jianshu.user WHERE mobile = ?";
+        User user;
+        try (SqlSession sqlSession = MybatisUtil.getSqlSession(false)) {
+            user = sqlSession.selectOne("user.queryUserByMobile", mobile);
+        }
 
-        try {
-            if (connection != null) {
-                preparedStatement = connection.prepareStatement(sql);
-            } else {
-                Error.showError(req, resp);
-                return null; // ?
-            }
-            preparedStatement.setString(1, mobile);
-
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String encryptedPassword = resultSet.getString("password");
-                StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
-                if (encryptor.checkPassword(plainPassword, encryptedPassword)) {
-                    User user = new User(
-                            resultSet.getInt("id"),
-                            resultSet.getString("nick"),
-                            resultSet.getString("mobile"),
-                            resultSet.getString("password"),
-                            resultSet.getString("avatar"),
-                            resultSet.getInt("pay"),
-                            resultSet.getDouble("money"),
-                            resultSet.getString("lastIp"),
-                            resultSet.getString("lastTime"),
-                            resultSet.getString("signUpTime")
-                    );
-
-                    sql = "UPDATE db_jianshu.user SET lastIp = ?, lastTime = now() WHERE id = ?";
-                    preparedStatement = connection.prepareStatement(sql);
-                    preparedStatement.setString(1, req.getRemoteAddr());
-                    preparedStatement.setInt(2, user.getId());
-                    preparedStatement.executeUpdate();
-
-                    return user;
+        if (user != null) {
+            String encryptedPassword = user.getPassword();
+            StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
+            if (encryptor.checkPassword(plainPassword, encryptedPassword)) {
+                String lastIp = req.getRemoteAddr();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String lastTime = format.format(new Date());
+                user.setLastIp(lastIp);
+                user.setLastTime(lastTime);
+                try (SqlSession sqlSession = MybatisUtil.getSqlSession(true)) {
+                    sqlSession.update("user.signInUpdate", user);
                 }
+                return user;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Db.close(resultSet, preparedStatement, connection);
         }
         return null;
     }

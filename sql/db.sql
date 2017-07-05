@@ -235,8 +235,7 @@ REFERENCES db_jianshu.note (id);
 
 -- SELECT
 SELECT *
-FROM db_jianshu.user
-WHERE mobile = 'a' = 'a' AND password = 'a' = 'a';
+FROM db_jianshu.user;
 
 SELECT *
 FROM db_jianshu.notebook;
