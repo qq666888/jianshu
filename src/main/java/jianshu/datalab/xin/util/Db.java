@@ -19,13 +19,9 @@ public class Db {
 
     public static Connection getConnection() {
         try {
-//            new Driver();
             Class.forName("com.mysql.jdbc.Driver");
-            Properties properties = new Properties();
-            properties.load(new FileReader("jdbc.properties"));
-//            return DriverManager.getConnection(URL);
-            return DriverManager.getConnection("jdbc:mysql:///", properties);
-        } catch (ClassNotFoundException | SQLException | IOException e) {
+            return DriverManager.getConnection(URL);
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return null;

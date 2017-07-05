@@ -202,7 +202,6 @@ public class UserAction extends HttpServlet {
         }
 
         String json = JSON.toJSONString(map);
-        System.out.println("json: " + json);
         writer.write(json);
     }
 
@@ -293,7 +292,6 @@ public class UserAction extends HttpServlet {
     private boolean checkValidCode(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String kaptchaReceived = req.getParameter("kaptchaReceived");
         String kaptchaExpected = (String) req.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        System.out.println(kaptchaExpected);
         resp.setContentType("application/json");
         Writer writer = resp.getWriter();
         Map<String, Boolean> map = new HashMap<>();
