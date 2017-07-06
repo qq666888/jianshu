@@ -91,7 +91,7 @@
         pluginPath           : "",             // If this empty, default use settings.path + "../plugins/"
         delay                : 300,            // Delay parse markdown to html, Uint : ms
         autoLoadModules      : true,           // Automatic load dependent module files
-        watch                : true,
+        watch                : false,
         placeholder          : "Enjoy Markdown! coding now...",
         gotoLine             : true,
         codeFold             : false,
