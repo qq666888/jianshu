@@ -1,6 +1,8 @@
 /**
- * Created by mingfei on 6/27/17.
- */
+    * Created by mingfei.net@gmail.com
+    * 6/27/17 15:38
+    * https://github.com/thu/jianshu/
+    */
 $(function () {
 //            $.fn.bootstrapSwitch.defaults.size = 'mini';
     $("[name='night-mode']").bootstrapSwitch();

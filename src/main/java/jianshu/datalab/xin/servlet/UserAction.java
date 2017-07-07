@@ -6,7 +6,10 @@ import jianshu.datalab.xin.dao.UserDao;
 import jianshu.datalab.xin.model.User;
 import jianshu.datalab.xin.util.Error;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +30,13 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/user")
 public class UserAction extends HttpServlet {
 
+    @Autowired
     private UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override

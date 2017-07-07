@@ -164,6 +164,7 @@
                 validate(true, 'mobile');
             });
             $('#password').blur(function () {
+                console.log('blur...');
                 validatePassword();
             });
 
@@ -194,7 +195,7 @@
             <input type='hidden' name='action' value='signUp'>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span>
-                <input id='nick' name='nick' class='form-control input-lg' type='text' placeholder='你的昵称'>
+                <input id='nick' name='nick' class='form-control input-lg' type='text' placeholder='你的昵称' autofocus>
             </div>
             <small id='nick-message'></small>
             <div class='input-group'>
