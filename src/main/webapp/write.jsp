@@ -82,9 +82,9 @@
                 htmlDecode: "style,script,iframe|on*", // 开启 HTML 标签解析，为了安全性，默认不开启
                 codeFold: true,//ctrl+q代码折叠
 //                                    saveHTMLToTextarea : true,//这个配置在simple.html中并没有，但是为了能够提交表单，使用这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。这个转换好像有些缺陷，有些配置没有生效，目前还没想到怎么解决，我这里没有用,是在前台读取的时候转换的
-                imageUpload: true,//开启本地图片上传
-                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL: "/index.php/Admin/News/uploadFileMark",//图片上传地址
+//                imageUpload: false,//开启本地图片上传
+//                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+//                imageUploadURL: "/index.php/Admin/News/uploadFileMark",//图片上传地址
                 onload: function () {
                     console.log('onload', this);
                 }
