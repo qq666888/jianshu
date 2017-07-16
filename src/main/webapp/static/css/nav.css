@@ -8,6 +8,10 @@ body {
     border-radius: 0;
 }
 
+#logo {
+    color: #ea6f5a;
+}
+
 ul .btn {
     margin-left: 15px;
     margin-right: 15px;

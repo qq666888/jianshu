@@ -38,18 +38,19 @@
         #note-title {
             border-right: 1px solid #d9d9d9;
         }
+        #title-wrap {
+            margin: 0;
+            height: 5%;
+        }
+        #title {
+            border: none;
+            border-radius: 0;
+        }
     </style>
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
     <script>
         $(function () {
-            $('#preview').click(function () {
-                $('#notebook').hide();
-                $('#note-title').hide();
-                $('#editor-wraper')
-                    .removeClass('col-md-7')
-                    .addClass('col-md-12');
-            });
         });
     </script>
 </head>
@@ -57,6 +58,9 @@
 <div id="notebook" class="col-md-2">left</div>
 <div id="note-title" class="col-md-3">center</div>
 <div id="editor-wraper" class="col-md-7">
+    <div id="title-wrap" class="form-group">
+        <input id="title" type="text" class="form-control input-lg" placeholder="无标题文章">
+    </div>
     <div id="editor">
         <textarea style="display:none;"></textarea>
         <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
@@ -68,12 +72,15 @@
         $(function () {
             editor = editormd("editor", {
                 width: "100%",//宽度
-                height: "100%",//高度
+                height: "95%",//高度
                 // 下面三个选项是设置风格的，每个有什么风格，请看下载插件得examples/themes.html
                 theme: "lesser-dark",// 工具栏风格
                 previewTheme: "default",// 预览页面风格
                 editorTheme: "default",// 设置编辑页面风格
                 path: 'static/md/lib/',//这块是lib的文件路径，必须设置，否则几个样式css，js访问不到的
+                toolbarIcons : function() {
+                    return ["undo", "redo", "|", "||", "watch", "fullscreen", "preview", "testIcon"]
+                },
                 flowChart: true,//控制流程图编辑
                 sequenceDiagram: true,//控制时序图编辑
                 taskList: true,//任务列表

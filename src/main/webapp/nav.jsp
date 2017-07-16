@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">简书</a>
+            <a id="logo" class="navbar-brand" href="/">简书</a>
         </div>
         <div id="nav" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">

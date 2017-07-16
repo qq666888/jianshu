@@ -214,7 +214,7 @@
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-phone'></i></span>
                 <input id="mobile" name='mobile' class='form-control input-lg' type='text' placeholder='手机号或邮箱'
-                       value="18612345678">
+                       value="18612182079">
             </div>
             <small id='mobile-message'></small>
             <div class='input-group'>
@@ -229,7 +229,7 @@
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-check'></i></span>
                 <input id="kaptcha" name='kaptchaReceived' class='form-control input-lg' type='text' placeholder='验证码'
-                       value="123">
+                       value="">
             </div>
             <small id='password-kaptcha'></small>
             <div class="checkbox">
