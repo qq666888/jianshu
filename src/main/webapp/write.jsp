@@ -46,6 +46,9 @@
             border: none;
             border-radius: 0;
         }
+        #title:focus {
+            box-shadow: none;
+        }
     </style>
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
@@ -59,7 +62,7 @@
 <div id="note-title" class="col-md-3">center</div>
 <div id="editor-wraper" class="col-md-7">
     <div id="title-wrap" class="form-group">
-        <input id="title" type="text" class="form-control input-lg" placeholder="无标题文章">
+        <input id="title" type="text" class="form-control input-lg" value="无标题文章">
     </div>
     <div id="editor">
         <textarea style="display:none;"></textarea>
