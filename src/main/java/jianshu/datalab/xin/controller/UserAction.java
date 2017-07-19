@@ -1,0 +1,211 @@
+package jianshu.datalab.xin.controller;
+
+import com.alibaba.fastjson.JSON;
+import com.google.code.kaptcha.Constants;
+import jianshu.datalab.xin.model.User;
+import jianshu.datalab.xin.service.UserService;
+import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by mingfei.net@gmail.com
+ * 6/27/17 15:25
+ * https://github.com/thu/jianshu/
+ */
+@Controller
+@RequestMapping("user")
+public class UserAction extends BaseController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private StrongPasswordEncryptor encryptor;
+
+    @RequestMapping("signUp")
+    private String signUp(User user) {
+
+        if (user.getNick().length() == 0) {
+            request.setAttribute("message", "请输入昵称");
+            return "sign_up.jsp";
+        }
+
+        if (user.getMobile().length() == 0) {
+            request.setAttribute("message", "请输入手机号");
+            return "sign_up.jsp";
+        }
+
+        if (user.getPassword().length() < 6) {
+            request.setAttribute("message", "密码不能少于6个字符");
+            return "sign_up.jsp";
+        }
+
+        if (isNickExisted(user.getNick())) {
+            request.setAttribute("message", "昵称 已经被使用");
+            return "sign_up.jsp";
+        }
+
+        if (isMobileExisted(user.getMobile())) {
+            request.setAttribute("message", "手机号 已经被使用");
+            return "sign_up.jsp";
+        }
+
+        String password = encryptor.encryptPassword(user.getPassword());
+        String lastIp = request.getRemoteAddr();
+        user.setPassword(password);
+        user.setLastIp(lastIp);
+
+        userService.signUp(user);
+
+        return "redirect:/sign_in.jsp";
+    }
+
+    private User checkSignIn(User user) {
+        String plainPassword = user.getPassword();
+        user = userService.queryUserByMobile(user.getMobile());
+        if (user != null) {
+            String encryptedPassword = user.getPassword();
+            if (encryptor.checkPassword(plainPassword, encryptedPassword)) {
+                String lastIp = request.getRemoteAddr();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String lastTime = format.format(new Date());
+                user.setLastIp(lastIp);
+                user.setLastTime(lastTime);
+                userService.signInUpdate(user);
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 处理 Android 客户端请求
+     */
+    @RequestMapping("signInApi")
+    private void signInApi(User user) {
+        user = checkSignIn(user);
+
+        response.setContentType("application/json");
+        Map<String, Object> map = new HashMap<>();
+        if (user != null) {
+            map.put("canSignIn", true);
+            map.put("user", user);
+        } else {
+            map.put("canSignIn", false);
+            map.put("user", null);
+        }
+
+        String json = JSON.toJSONString(map);
+        try (Writer writer = response.getWriter()) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("signIn")
+    private String signIn(User user, String kaptchaReceived) {
+        if (!checkValidCode(kaptchaReceived)) {
+            request.setAttribute("message", "验证码错误");
+            return "/sign_in.jsp";
+        }
+
+        user = checkSignIn(user);
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+            return "redirect:/default.jsp";
+        }
+        request.setAttribute("message", "登录失败，手机号/邮箱或密码错误");
+        return "/sign_in.jsp";
+    }
+
+    private void signOut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().invalidate();
+        resp.sendRedirect("default.jsp");
+    }
+
+    /**
+     * for signUp
+     */
+    private boolean isNickExisted(String nick) {
+        try {
+            return isExisted("nick", nick);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+        return false; // TODO: 7/19/17
+    }
+
+    /**
+     * for signUp
+     */
+    private boolean isMobileExisted(String mobile) {
+        try {
+            return isExisted("mobile", mobile);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+        return false; // TODO: 7/19/17
+    }
+
+    /**
+     * for AJAX
+     */
+    private void isNickOrMobileExisted(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String field = req.getParameter("field");
+        String value = req.getParameter("value").trim();
+
+        boolean isExisted = isExisted(field, value);
+
+        resp.setContentType("application/json");
+        Writer writer = resp.getWriter();
+        Map<String, Object> map = new HashMap<>();
+        map.put("isExisted", isExisted);
+        writer.write(JSON.toJSONString(map));
+    }
+
+    private boolean isExisted(String field, String value) throws ServletException, IOException {
+        boolean isNickExisted = false;
+        boolean isMobileExisted = false;
+
+        if (field.equals("nick")) {
+            User user = userService.queryUserByNick(value);
+            isNickExisted = (user != null);
+        } else {
+            User user = userService.queryUserByMobile(value);
+            isMobileExisted = (user != null);
+        }
+        return isNickExisted || isMobileExisted;
+    }
+
+    private boolean checkValidCode(String kaptchaReceived) {
+        String kaptchaExpected = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+
+        response.setContentType("application/json");
+        Map<String, Boolean> map = new HashMap<>();
+
+        if (kaptchaExpected.equalsIgnoreCase(kaptchaReceived)) {
+            map.put("isValid", true);
+        } else {
+            map.put("isValid", false);
+        }
+        try (Writer writer = response.getWriter()) {
+            writer.write(JSON.toJSONString(map));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map.get("isValid");
+    }
+}
