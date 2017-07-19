@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>写文章 - 简书</title>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
     <link rel="stylesheet" href="static/md/css/editormd.min.css"/>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <style>
+        #title-wrap {
+            margin: 0;
+        }
+        #title {
+            border: none;
+        }
+    </style>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!--文章添加页-->
+<div id="title-wrap" class="form-group">
+    <input id="title" type="text" class="form-control input-lg" placeholder="无标题文章">
+</div>
 <div id="editor">
     <textarea style="display:none;"></textarea>
     <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
