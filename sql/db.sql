@@ -18,7 +18,7 @@ CREATE TABLE db_jianshu.user (
   password   VARCHAR(255)  NOT NULL
   COMMENT '密码',
   avatar     VARCHAR(255)  NOT NULL
-                                    DEFAULT 'default_avatar.png',
+                                    DEFAULT 'default_avatar.svg',
   pay        INT
                                     DEFAULT 2
   COMMENT '打赏金额，默认-2元；NULL-关闭打赏',

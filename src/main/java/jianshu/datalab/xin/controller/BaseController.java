@@ -1,7 +1,5 @@
 package jianshu.datalab.xin.controller;
 
-import com.sun.deploy.net.HttpResponse;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.ServletContext;
@@ -15,6 +13,7 @@ import javax.servlet.http.HttpSession;
  * https://github.com/thu/jianshu/
  */
 public class BaseController {
+
     HttpServletRequest request;
     HttpServletResponse response;
     HttpSession session;

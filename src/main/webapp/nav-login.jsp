@@ -22,7 +22,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="set">
-                            <img src="static/image/moon_fill.svg" alt="" width="15"> 夜间模式
+                            <img src="assets/image/moon_fill.svg" alt="" width="15"> 夜间模式
                             <input type="checkbox" name="night-mode">
                         </li>
                         <li class="divider"></li>
@@ -33,7 +33,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 9px;" href="">
                         <img class="img-circle"
                              style="border: 1px #9d9d9d solid;"
-                             src="static/upload/${sessionScope.user.avatar}" alt="${sessionScope.user.nick}"
+                             src="assets/upload/${sessionScope.user.avatar}" alt="${sessionScope.user.nick}"
                              width="32">
                         <span class="caret"></span>
                     </a>
@@ -48,7 +48,7 @@
                     </ul>
                 </li>
                 <li>
-                    <button id="write-note" class="btn btn-danger navbar-btn"><i class="glyphicon glyphicon-pencil"></i>
+                    <button id="write" class="btn btn-danger navbar-btn"><i class="glyphicon glyphicon-pencil"></i>
                         写文章
                     </button>
                 </li>

@@ -11,10 +11,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>登录 - 简书</title>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
-    <link rel='stylesheet' href='static/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='static/css/bootstrap-switch.min.css'>
+    <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='assets/css/bootstrap-switch.min.css'>
     <style>
-        @import 'static/css/nav.css';
+        @import 'assets/css/nav.css';
     </style>
     <style>
         body {

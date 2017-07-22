@@ -22,7 +22,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="set">
-                            <img src="static/image/moon_fill.svg" alt="" width="15"> 夜间模式
+                            <img src="assets/image/moon_fill.svg" alt="" width="15"> 夜间模式
                             <input type="checkbox" name="night-mode">
                         </li>
                         <li class="divider"></li>
@@ -34,7 +34,7 @@
                     <button id="nav-sign-up" class="btn btn-default navbar-btn">注册</button>
                 </li>
                 <li>
-                    <button id="write-note" class="btn btn-danger navbar-btn"><i class="glyphicon glyphicon-pencil"></i>
+                    <button id="write" class="btn btn-danger navbar-btn"><i class="glyphicon glyphicon-pencil"></i>
                         写文章
                     </button>
                 </li>

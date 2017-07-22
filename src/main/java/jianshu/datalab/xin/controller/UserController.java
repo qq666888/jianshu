@@ -8,6 +8,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +27,17 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("user")
-public class UserAction extends BaseController {
+public class UserController extends BaseController {
+
+    private final UserService userService;
+
+    private final StrongPasswordEncryptor encryptor;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private StrongPasswordEncryptor encryptor;
+    public UserController(UserService userService, StrongPasswordEncryptor encryptor) {
+        this.userService = userService;
+        this.encryptor = encryptor;
+    }
 
     @RequestMapping("signUp")
     private String signUp(User user) {
@@ -131,6 +136,7 @@ public class UserAction extends BaseController {
         return "/sign_in.jsp";
     }
 
+    @RequestMapping("signOut")
     private void signOut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
         resp.sendRedirect("default.jsp");
@@ -163,17 +169,13 @@ public class UserAction extends BaseController {
     /**
      * for AJAX
      */
-    private void isNickOrMobileExisted(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String field = req.getParameter("field");
-        String value = req.getParameter("value").trim();
-
-        boolean isExisted = isExisted(field, value);
-
-        resp.setContentType("application/json");
-        Writer writer = resp.getWriter();
-        Map<String, Object> map = new HashMap<>();
-        map.put("isExisted", isExisted);
-        writer.write(JSON.toJSONString(map));
+    @ResponseBody
+    @RequestMapping("isNickOrMobileExisted")
+    private Map<String, Boolean> isNickOrMobileExisted(String field, String value) throws ServletException, IOException {
+//        boolean isExisted = isExisted(field, value);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("isExisted", true);
+        return map;
     }
 
     private boolean isExisted(String field, String value) throws ServletException, IOException {

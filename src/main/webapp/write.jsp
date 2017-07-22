@@ -11,9 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>写文章 - 简书</title>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/bootstrap-switch.min.css">
-    <link rel="stylesheet" href="static/md/css/editormd.min.css"/>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="assets/md/css/editormd.min.css"/>
     <style>
         html,
         body {
@@ -50,8 +50,8 @@
             box-shadow: none;
         }
     </style>
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
     <script>
         $(function () {
         });
@@ -69,8 +69,8 @@
         <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
         <textarea class="editormd-html-textarea" name="text"></textarea>
     </div>
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/md/editormd.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/md/editormd.js"></script>
     <script type="text/javascript">
         $(function () {
             editor = editormd("editor", {

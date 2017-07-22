@@ -12,15 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>简书 - 创作你的创作</title>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-switch.min.css">
     <style>
-        @import "static/css/nav.css";
+        @import "assets/css/nav.css";
     </style>
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/bootstrap-switch.min.js"></script>
-    <script src="static/js/nav.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-switch.min.js"></script>
+    <script src="assets/js/nav.js"></script>
 </head>
 <body>
 <c:if test="${sessionScope.user eq null}">

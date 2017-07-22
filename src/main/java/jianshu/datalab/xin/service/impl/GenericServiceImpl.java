@@ -2,9 +2,9 @@ package jianshu.datalab.xin.service.impl;
 
 import jianshu.datalab.xin.dao.GenericDao;
 import jianshu.datalab.xin.service.GenericService;
+import jianshu.datalab.xin.util.Pagination;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by mingfei.net@gmail.com
@@ -15,6 +15,7 @@ public abstract class GenericServiceImpl<M extends Serializable, ID extends Numb
 
     GenericDao<M, ID> genericDao;
 
+    @SuppressWarnings("unused")
     public abstract void setGenericDao(GenericDao<M, ID> genericDao);
 
     @Override
@@ -28,23 +29,13 @@ public abstract class GenericServiceImpl<M extends Serializable, ID extends Numb
     }
 
     @Override
-    public List<M> queryAll() {
-        return genericDao.queryAll();
+    public void removeById(ID id) {
+        genericDao.removeById(id);
     }
 
     @Override
-    public List<M> queryList(String statement, Object parameter) {
-        return genericDao.queryList(statement, parameter);
-    }
-
-    @Override
-    public M queryById(ID id) {
-        return genericDao.queryById(id);
-    }
-
-    @Override
-    public M queryOne(String statement, Object parameter) {
-        return genericDao.queryOne(statement, parameter);
+    public void remove(String statement, Object parameter) {
+        genericDao.remove(statement, parameter);
     }
 
     @Override
@@ -58,12 +49,22 @@ public abstract class GenericServiceImpl<M extends Serializable, ID extends Numb
     }
 
     @Override
-    public void removeById(ID id) {
-        genericDao.removeById(id);
+    public M queryById(ID id) {
+        return genericDao.queryById(id);
     }
 
     @Override
-    public void remove(M model) {
-        genericDao.remove(model);
+    public M query(String statement, Object parameter) {
+        return genericDao.query(statement, parameter);
+    }
+
+    @Override
+    public Pagination<M> queryAll(int currentPage) {
+        return genericDao.queryAll(currentPage);
+    }
+
+    @Override
+    public Pagination<M> query(String statement, Object parameter, int currentPage) {
+        return genericDao.query(statement, parameter, currentPage);
     }
 }

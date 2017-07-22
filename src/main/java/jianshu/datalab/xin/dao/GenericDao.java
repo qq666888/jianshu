@@ -1,7 +1,8 @@
 package jianshu.datalab.xin.dao;
 
+import jianshu.datalab.xin.util.Pagination;
+
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by mingfei.net@gmail.com
@@ -14,19 +15,19 @@ public interface GenericDao<M extends Serializable, ID extends Number> {
 
     void create(String statement, Object parameter);
 
-    List<M> queryAll();
+    void removeById(ID id);
 
-    List<M> queryList(String statement, Object parameter);
-
-    M queryById(ID id);
-
-    M queryOne(String statement, Object parameter);
+    void remove(String statement, Object parameter);
 
     void modify(M model);
 
     void modify(String statement, Object parameter);
 
-    void removeById(ID id);
+    M queryById(ID id);
 
-    void remove(M model);
+    M query(String statement, Object parameter);
+
+    Pagination<M> queryAll(int currentPage);
+
+    Pagination<M> query(String statement, Object parameter, int currentPage);
 }

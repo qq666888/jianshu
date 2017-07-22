@@ -3,8 +3,6 @@ package jianshu.datalab.xin.service.impl;
 import jianshu.datalab.xin.dao.GenericDao;
 import jianshu.datalab.xin.model.User;
 import jianshu.datalab.xin.service.UserService;
-import jianshu.datalab.xin.util.MybatisUtil;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,12 +29,12 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
 
     @Override
     public User queryUserByNick(String nick) {
-        return genericDao.queryOne("queryUserByNick", nick);
+        return genericDao.query("queryUserByNick", nick);
     }
 
     @Override
     public User queryUserByMobile(String mobile) {
-        return genericDao.queryOne("queryUserByMobile", mobile);
+        return genericDao.query("queryUserByMobile", mobile);
     }
 
     @Override

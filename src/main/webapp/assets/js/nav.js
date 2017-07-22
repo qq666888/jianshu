@@ -10,7 +10,7 @@ $(function () {
     $('#nav-sign-up').click(function () {
         window.location.href = "sign_up.jsp";
     });
-    $('#write-note').click(function () {
-        window.location.href = 'write_note.jsp';
+    $('#write').click(function () {
+        window.location.href = 'write.jsp';
     });
 });
