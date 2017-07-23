@@ -5,24 +5,21 @@
 --%>
 <!DOCTYPE html>
 <%@ page contentType='text/html;charset=UTF-8' language='java' %>
+<%@ include file="commons/inc.jsp" %>
 <html>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>注册 - 简书</title>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
-    <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='assets/css/bootstrap-switch.min.css'>
+    <link rel='stylesheet' href='${ctx}/assets/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='${ctx}/assets/css/bootstrap-switch.min.css'>
     <style>
-        @import 'assets/css/nav.css';
+        @import ${ctx}'/assets/css/nav.css';
     </style>
     <style>
         body {
             background: #f1f1f1;
-        }
-
-        #logo {
-            margin-bottom: 15px;
         }
 
         h3 a {
@@ -58,10 +55,10 @@
             display: none;
         }
     </style>
-    <script src='static/js/jquery.min.js'></script>
-    <script src='static/js/bootstrap.min.js'></script>
-    <script src='static/js/bootstrap-switch.min.js'></script>
-    <script src='static/js/nav.js'></script>
+    <script src='${ctx}/assets/js/jquery.min.js'></script>
+    <script src='${ctx}/assets/js/bootstrap.min.js'></script>
+    <script src='${ctx}/assets/js/bootstrap-switch.min.js'></script>
+    <script src='${ctx}/assets/js/nav.js'></script>
     <script>
 
         var isNickValidated; // 昵称通过了验证
@@ -93,8 +90,8 @@
                 return;
             }
             $.ajax({
-                url: 'user',
-                type: 'post/isNickOrMobileExisted',
+                url: '${ctx}/user/isNickOrMobileExisted',
+                type: 'post',
                 data: {'field': field, 'value': element.val()},
                 dataType: 'json',
                 async: async,
@@ -128,7 +125,7 @@
                     }
                 },
                 error: function () {
-                    window.location.href = 'default.jsp?message=ERROR.';
+                    window.location.href = '${ctx}/default.jsp?message=ERROR.';
                 }
             });
         }
@@ -186,13 +183,12 @@
     </script>
 </head>
 <body>
-<%@ include file='nav.jsp' %>
+<c:import url="${ctx}/nav.jsp"/>
 <div class='container'>
-    <div id='logo'><img src='static/image/logo.png' alt='简书'></div>
+    <div id='logo'><img src='${ctx}/assets/image/logo.png' alt='简书'></div>
     <div id='form-box' class='col-md-4 col-md-offset-4'>
         <h3 class='text-center'><a class='text-muted' href="sign_in.jsp">登录</a> · <a id='sign-up' href=''>注册</a></h3>
-        <form id="sign-up-form" class='form-horizontal' action='user' method='post'>
-            <input type='hidden' name='action' value='signUp'>
+        <form id="sign-up-form" class='form-horizontal' action='${ctx}/user/signUp' method='post'>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span>
                 <input id='nick' name='nick' class='form-control input-lg' type='text' placeholder='你的昵称' autofocus>
