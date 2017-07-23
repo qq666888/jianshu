@@ -172,9 +172,9 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("isNickOrMobileExisted")
     private Map<String, Boolean> isNickOrMobileExisted(String field, String value) throws ServletException, IOException {
-//        boolean isExisted = isExisted(field, value);
+        boolean isExisted = isExisted(field, value);
         Map<String, Boolean> map = new HashMap<>();
-        map.put("isExisted", true);
+        map.put("isExisted", isExisted);
         return map;
     }
 
