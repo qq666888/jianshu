@@ -33,10 +33,12 @@ CREATE TABLE db_jianshu.user (
 # 2. 文集 notebook
 DROP TABLE IF EXISTS db_jianshu.notebook;
 CREATE TABLE db_jianshu.notebook (
-  id     INT AUTO_INCREMENT PRIMARY KEY
+  id     INT      AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  title  VARCHAR(255) NOT NULL
+  title  VARCHAR(191) NOT NULL UNIQUE
   COMMENT '名称',
+  time   DATETIME DEFAULT now()
+  COMMENT '时间',
   userId INT COMMENT 'FK 用户 ID'
 )
   COMMENT '文集表';
@@ -48,6 +50,8 @@ CREATE TABLE db_jianshu.note (
   COMMENT 'ID PK',
   title      VARCHAR(255) NOT NULL
   COMMENT '标题',
+  markdown   TEXT         NOT NULL
+  COMMENT 'markdown',
   content    TEXT         NOT NULL
   COMMENT '内容',
   time       DATETIME DEFAULT now()
