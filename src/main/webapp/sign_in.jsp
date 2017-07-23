@@ -5,14 +5,15 @@
 --%>
 <!DOCTYPE html>
 <%@ page contentType='text/html;charset=UTF-8' language='java' %>
+<%@ include file="commons/inc.jsp" %>
 <html>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>登录 - 简书</title>
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
-    <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='assets/css/bootstrap-switch.min.css'>
+    <link rel='shortcut icon' type='image/x-icon' href='${ctx}/favicon.ico'>
+    <link rel='stylesheet' href='${ctx}/assets/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='${ctx}/assets/css/bootstrap-switch.min.css'>
     <style>
         @import 'assets/css/nav.css';
     </style>
@@ -61,10 +62,10 @@
             cursor: pointer;
         }
     </style>
-    <script src='static/js/jquery.min.js'></script>
-    <script src='static/js/bootstrap.min.js'></script>
-    <script src='static/js/bootstrap-switch.min.js'></script>
-    <script src='static/js/nav.js'></script>
+    <script src='${ctx}/assets/js/jquery.min.js'></script>
+    <script src='${ctx}/assets/js/bootstrap.min.js'></script>
+    <script src='${ctx}/assets/js/bootstrap-switch.min.js'></script>
+    <script src='${ctx}/assets/js/nav.js'></script>
     <script>
         var isMobileValidated; // 手机号通过了验证
         var isPasswordValidated; // 密码通过了验证
@@ -175,9 +176,9 @@
 
             kaptcha.blur(function () {
                 $.ajax({
-                    url: 'user',
+                    url: 'user/checkValidCode',
                     type: 'post',
-                    data: {'action': 'checkValidCode', 'kaptchaReceived': kaptcha.val()},
+                    data: {'kaptchaReceived': kaptcha.val()},
                     dataType: 'json',
                     success: function (result) {
                         if (result.isValid) {
@@ -204,13 +205,12 @@
 <body>
 <%@ include file='nav.jsp' %>
 <div class='container'>
-    <div id='logo'><img src='static/image/logo.png' alt='简书'></div>
+    <div id='logo'><img src='${ctx}/assets/image/logo.png' alt='简书'></div>
     <div id='form-box' class='col-md-4 col-md-offset-4'>
         <h3 class='text-center'>
             <a id="sign-in" href='sign_in.jsp'>登录</a> · <a id='sign-up' class="text-muted" href='sign_up.jsp'>注册</a>
         </h3>
-        <form id="sign-in-form" class='form-horizontal' action='user' method='post'>
-            <input type='hidden' name='action' value='signIn'>
+        <form id="sign-in-form" class='form-horizontal' action='${ctx}/user/signIn' method='post'>
             <div class='input-group'>
                 <span class='input-group-addon'><i class='glyphicon glyphicon-phone'></i></span>
                 <input id="mobile" name='mobile' class='form-control input-lg' type='text' placeholder='手机号或邮箱'

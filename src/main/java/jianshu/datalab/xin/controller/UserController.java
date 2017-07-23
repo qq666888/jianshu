@@ -122,10 +122,10 @@ public class UserController extends BaseController {
 
     @RequestMapping("signIn")
     private String signIn(User user, String kaptchaReceived) {
-        if (!checkValidCode(kaptchaReceived)) {
-            request.setAttribute("message", "验证码错误");
-            return "/sign_in.jsp";
-        }
+//        if (!checkValidCode(kaptchaReceived)) {
+//            request.setAttribute("message", "验证码错误");
+//            return "/sign_in.jsp";
+//        }
 
         user = checkSignIn(user);
         if (user != null) {
@@ -192,10 +192,11 @@ public class UserController extends BaseController {
         return isNickExisted || isMobileExisted;
     }
 
-    private boolean checkValidCode(String kaptchaReceived) {
+    @ResponseBody
+    @RequestMapping("checkValidCode")
+    private Map<String, Boolean> checkValidCode(String kaptchaReceived) {
         String kaptchaExpected = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
 
-        response.setContentType("application/json");
         Map<String, Boolean> map = new HashMap<>();
 
         if (kaptchaExpected.equalsIgnoreCase(kaptchaReceived)) {
@@ -203,11 +204,7 @@ public class UserController extends BaseController {
         } else {
             map.put("isValid", false);
         }
-        try (Writer writer = response.getWriter()) {
-            writer.write(JSON.toJSONString(map));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return map.get("isValid");
+        return map;
+//        return map.get("isValid"); // TODO: 2017/7/23
     }
 }

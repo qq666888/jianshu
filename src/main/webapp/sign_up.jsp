@@ -155,13 +155,15 @@
             $('#li-index').removeClass('active');
 
             $('#nick').blur(function () {
+                console.log('nick blur');
                 validate(true, 'nick');
             });
             $('#mobile').blur(function () {
+                console.log('mobile blur');
                 validate(true, 'mobile');
             });
             $('#password').blur(function () {
-                console.log('blur...');
+                console.log('pasword blur');
                 validatePassword();
             });
 

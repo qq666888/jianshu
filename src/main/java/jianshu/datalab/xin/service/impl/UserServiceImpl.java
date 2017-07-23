@@ -24,7 +24,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
 
     @Override
     public void signUp(User user) {
-        genericDao.create("sign", user);
+        genericDao.create("signUp", user);
     }
 
     @Override
