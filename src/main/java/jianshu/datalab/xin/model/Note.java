@@ -7,17 +7,20 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author mingfei.net@gmail.com
- *         2017/7/24 00:01
+ *         2017/7/24 00:15
  *         https://github.com/thu/jianshu
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Notebook extends BaseModel {
+public class Note extends BaseModel {
 
     private Integer id;
     private String title;
+    private String markdown;
+    private String content;
     private String time;
-    private int userId;
+    int views;
+    int notebookId;
 }

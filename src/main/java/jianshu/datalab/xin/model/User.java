@@ -2,9 +2,8 @@ package jianshu.datalab.xin.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * Created by mingfei.net@gmail.com
@@ -14,7 +13,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable { // 标识接口
+@EqualsAndHashCode(callSuper = false)
+public class User extends BaseModel {
 
     private Integer id;
     private String nick;
