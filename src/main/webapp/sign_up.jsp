@@ -124,7 +124,10 @@
                         }
                     }
                 },
-                error: function () {
+                error: function (a, b, c) {
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
                     window.location.href = '${ctx}/default.jsp?message=ERROR.';
                 }
             });
