@@ -1,6 +1,5 @@
 package jianshu.datalab.xin.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import jianshu.datalab.xin.model.User;
 import jianshu.datalab.xin.service.UserService;
@@ -14,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,11 +96,10 @@ public class UserController extends BaseController {
     /**
      * 处理 Android 客户端请求
      */
+    @ResponseBody
     @RequestMapping("signInApi")
-    private void signInApi(User user) {
+    private Map<String, Object> signInApi(User user) {
         user = checkSignIn(user);
-
-        response.setContentType("application/json");
         Map<String, Object> map = new HashMap<>();
         if (user != null) {
             map.put("canSignIn", true);
@@ -111,13 +108,7 @@ public class UserController extends BaseController {
             map.put("canSignIn", false);
             map.put("user", null);
         }
-
-        String json = JSON.toJSONString(map);
-        try (Writer writer = response.getWriter()) {
-            writer.write(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return map;
     }
 
     @RequestMapping("signIn")
