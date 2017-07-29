@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by mingfei.net@gmail.com
+ *
  * 7/19/17 18:15
- * https://github.com/thu/jianshu/
  */
 public class BaseController {
 

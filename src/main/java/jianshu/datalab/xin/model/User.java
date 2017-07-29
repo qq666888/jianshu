@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/**
- * Created by mingfei.net@gmail.com
- * 6/30/17 09:06
- * https://github.com/thu/jianshu/
+/*** 6/30/17 09:06
  */
 @Data
 @AllArgsConstructor

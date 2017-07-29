@@ -8,9 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author mingfei.net@gmail.com
  *         2017/7/23 00:41
- *         https://github.com/thu/jianshu
  */
 @Data
 @AllArgsConstructor

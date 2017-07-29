@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by mingfei.net@gmail.com
  * 7/19/17 17:47
- * https://github.com/thu/jianshu/
  */
 @Service
 public class UserServiceImpl extends GenericServiceImpl<User, Integer> implements UserService {

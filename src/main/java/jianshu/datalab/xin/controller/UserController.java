@@ -18,11 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by mingfei.net@gmail.com
- * 6/27/17 15:25
- * https://github.com/thu/jianshu/
- */
+/*** 6/27/17 15:25*/
 @Controller
 @RequestMapping("user")
 public class UserController extends BaseController {

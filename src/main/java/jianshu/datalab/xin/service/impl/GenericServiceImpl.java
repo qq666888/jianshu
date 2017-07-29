@@ -7,9 +7,7 @@ import jianshu.datalab.xin.util.Pagination;
 import java.io.Serializable;
 
 /**
- * Created by mingfei.net@gmail.com
  * 7/19/17 17:41
- * https://github.com/thu/jianshu/
  */
 public abstract class GenericServiceImpl<M extends Serializable, ID extends Number> implements GenericService<M, ID> {
 

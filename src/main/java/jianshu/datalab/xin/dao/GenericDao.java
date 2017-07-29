@@ -5,10 +5,7 @@ import jianshu.datalab.xin.util.Pagination;
 import java.io.Serializable;
 
 /**
- * Created by mingfei.net@gmail.com
- * 7/19/17 17:21
- * https://github.com/thu/jianshu/
- */
+ * 7/19/17 17:21*/
 public interface GenericDao<M extends Serializable, ID extends Number> {
 
     void create(M model);

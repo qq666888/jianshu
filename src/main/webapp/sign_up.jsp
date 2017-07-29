@@ -1,7 +1,5 @@
 <%--
-    Created by mingfei.net@gmail.com
     6/27/17 10:47
-    https://github.com/thu/jianshu/
 --%>
 <!DOCTYPE html>
 <%@ page contentType='text/html;charset=UTF-8' language='java' %>

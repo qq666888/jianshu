@@ -13,9 +13,9 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
- * Created by mingfei.net@gmail.com
+ *
  * 7/19/17 17:24
- * https://github.com/thu/jianshu/
+ *
  */
 public class GenericDaoImpl<M extends Serializable, ID extends Number> implements GenericDao<M, ID> {
 

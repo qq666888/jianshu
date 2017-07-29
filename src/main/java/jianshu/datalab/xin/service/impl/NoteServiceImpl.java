@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by mingfei.net@gmail.com
- * 7/19/17 17:47
- * https://github.com/thu/jianshu/
- */
+ * 7/19/17 17:47*/
 @Service
 public class NoteServiceImpl extends GenericServiceImpl<Note, Integer> implements NoteService {
 
